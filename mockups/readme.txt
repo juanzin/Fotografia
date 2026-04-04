@@ -1,0 +1,1 @@
+you can see details about these mocks in this task: https://juanzin.atlassian.net/browse/PHOTOS-1
