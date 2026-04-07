@@ -6,6 +6,7 @@ import { PublicComponent } from './public.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
+import { PhotoRequestsService } from '../../data/photo-requests.service';
 
 
 @NgModule({
@@ -14,6 +15,9 @@ import { AboutComponent } from './about/about.component';
     HomeComponent,
     ContactComponent,
     AboutComponent
+  ],
+  providers: [
+    PhotoRequestsService
   ],
   imports: [
     CommonModule,
