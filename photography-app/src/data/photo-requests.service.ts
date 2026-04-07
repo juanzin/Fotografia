@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PhotoRequestsService {
 
-  private apiUrl: string = ""; 
+  private apiUrl: string = "https://localhost:7279/api/gestores"; 
   constructor(private http: HttpClient) {
 
   }
