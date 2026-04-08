@@ -5,13 +5,15 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
 import { PhographerManagerComponent } from './phographer-manager/phographer-manager.component';
+import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 
 
 @NgModule({
   declarations: [
     AuthComponent,
     LoginComponent,
-    PhographerManagerComponent
+    PhographerManagerComponent,
+    UploadPhotoComponent
   ],
   imports: [
     CommonModule,
