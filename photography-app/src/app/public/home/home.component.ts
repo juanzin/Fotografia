@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   public ngOnInit(): void {
-    this.loadPhotos();
+    // this.loadPhotos();
   }
 
   public ngOnDestroy(): void {

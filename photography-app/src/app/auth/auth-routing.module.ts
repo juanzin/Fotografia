@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { PhographerManagerComponent } from './phographer-manager/phographer-manager.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'photographerManager', component: PhographerManagerComponent }
 
 ];
