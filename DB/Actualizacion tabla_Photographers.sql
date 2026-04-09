@@ -1,0 +1,11 @@
+USE photography
+GO
+
+ALTER TABLE Photographers
+ADD Phone NVARCHAR (15),
+	Location NVARCHAR(200)
+GO
+
+ALTER TABLE Photos
+ALTER COLUMN Description VARCHAR(1000)
+GO

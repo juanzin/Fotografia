@@ -1,26 +1,48 @@
+using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.Features; // <<--- necesario
 using Photography_WebAPI.Context;
+using Photography_WebAPI.Services;
+using Photography_WebAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Conexion")));
+
+//  Configuración para permitir subir archivos grandes
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = long.MaxValue; // tamaño casi ilimitado
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Conexion"))
+);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddPolicy("AllowReact", policy =>
     {
-        //Puestos comunes de angular
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions()); // AWS
+builder.Services.AddAWSService<IAmazonS3>(); // AWS
+builder.Services.AddScoped<IS3Service, S3Service>(); // AWS
+
+// Configuración Kestrel para requests grandes
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = null;
+});
+
 var app = builder.Build();
-app.UseCors("AllowAngular");
 
 if (app.Environment.IsDevelopment())
 {

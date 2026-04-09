@@ -51,6 +51,12 @@ namespace Photography_WebAPI.Models
         [Required]
         public int Type_User { get; set; }
 
-        
+        [MaxLength(15)]
+        public string Phone { get; set; }
+
+        [MaxLength(200)]
+        public string Location { get; set; }
+
+
     }
 }
