@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PhotographerRequestsService {
 
-  private apiUrl: string = "https://localhost:7063/api/photographer"; // TO DO
+  private apiUrl: string = "https://localhost:7063/api/photographer";
   private photographerId: number = 2;
 
   constructor(private http: HttpClient) {
