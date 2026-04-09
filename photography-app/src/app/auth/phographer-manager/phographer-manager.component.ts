@@ -17,6 +17,7 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   public photographerInfo: any;
   public username: string;
   public photos: any[];
+  public isOpenUploadModal: boolean;
   
   constructor(
     private photographerRequest: PhotographerRequestsService,
@@ -28,6 +29,7 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
     };
     this.username = "";
     this.photos = [];
+    this.isOpenUploadModal = false;
   }
 
   loadPhotographerInfo() {
@@ -46,6 +48,15 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
       });
     }
 
+  }
+
+  onOpenUploadPhoto() {
+    console.log("opening upload photo modal");
+    this.isOpenUploadModal = !this.isOpenUploadModal;
+  }
+
+  onCloseUploadModal() {
+    this.isOpenUploadModal = false;
   }
 
   onUpdateInfo() {
@@ -85,7 +96,7 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        console.error('Error loading productos', err);
+        console.error('Error loading photographer data', err);
       }
     });
   }

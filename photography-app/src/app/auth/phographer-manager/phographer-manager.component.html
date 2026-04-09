@@ -38,7 +38,7 @@
         <h2>Gallery Management</h2>
 
         <div class="gallery-grid">
-          <div class="upload-card">
+          <div class="upload-card" (click)="onOpenUploadPhoto()">
             <span class="camera-icon">📷</span>
           </div>
           @for (photo of photos; track $index;) {
@@ -95,3 +95,9 @@
     </section>
   </div>
 </div>
+
+@if(isOpenUploadModal) {
+  <div class="modal-backdrop">
+    <app-upload-photo (close)="onCloseUploadModal()"></app-upload-photo>
+  </div>
+}

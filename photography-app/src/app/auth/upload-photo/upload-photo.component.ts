@@ -1,10 +1,84 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { PhotographerRequestsService } from '../../../data/photographer-requests.service';
+import { PhotoRequestsService } from '../../../data/photo-requests.service';
+import { DataStorageService } from '../../../data/data-storage.service';
+import { CategoryRequestsService } from '../../../data/category-requests.service';
 
 @Component({
   selector: 'app-upload-photo',
   templateUrl: './upload-photo.component.html',
   styleUrl: './upload-photo.component.css'
 })
-export class UploadPhotoComponent {
+export class UploadPhotoComponent implements OnInit, OnDestroy{
+  @Output() close = new EventEmitter<void>();
+
+  private photographerId: number;
+  public selectedFile: any;
+  public title: string;
+  public description: string;
+  public categories: any[];
+  public selectedcategory: any;
+
+  constructor(
+    private photographerRequest: PhotographerRequestsService,
+    private photosRequest: PhotoRequestsService,
+    private categoryRequests: CategoryRequestsService,
+    private dataStorage: DataStorageService) {
+    this.photographerId = dataStorage.getPhotographerId();
+    
+    this.selectedFile = {
+      name: ""
+    };
+    this.title = "";
+    this.description = "";
+    this.categories = [];
+    this.selectedcategory = {};
+  }
+
+  onUploadPhoto() {
+    console.log("upload photo");
+  }
+
+  onFileSelected(event: any): void {
+    let file = event.target.files[0];
+
+    if (file) {
+      this.selectedFile = file;
+      console.log('Selected file:', file);
+    }
+
+    if (file && file.type.startsWith('image/')) {
+      // valid image
+      console.log("this is a image", this.selectedFile);
+    } else {
+      alert('Only images are allowed');
+    }
+  }
+  
+  getCategories() {
+    this.categoryRequests.getCategories().subscribe({
+      next: (data) => {
+        if(data.length > 0) {
+          this.categories = data;
+          this.selectedcategory = this.categories[0]; 
+        }
+      },
+      error: (err) => {
+        console.error('Error loading categories', err);
+      }
+    });
+  }
+
+  closeModal(): void {
+    this.close.emit();
+  }
+
+  ngOnInit(): void {
+    this.getCategories();
+  }
+
+  ngOnDestroy(): void {
+    
+  }
 
 }
