@@ -114,7 +114,7 @@ EXEC Get_All_Categories;
 EXEC Get_Photographer_info_for_about 1;
 
 --setters
-EXEC SP_Insert_Photographer 'Irving', 'Lopez', 'Martinez','Irving','https://www.myprofile.com', 'memelas', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/', 'irvg@hotmail.com', 'soy chido', 1;
+EXEC SP_Insert_Photographer 'Juan', 'Onofre', 'Feliciano','Juan','https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/profile.png', 'memelas', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/MijailTalChess/', 'printf_1@hotmail.com', 'soy chido', 1;
 
 EXEC SP_Insert_Photo 'animal',' new description', '2026-03-30 14:30:00', 1, 'https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/animal.png', 3;
 EXEC SP_Insert_Photo 'landing','new decription', '2026-03-30 14:30:00', 1, 'https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/landing.png', 4;

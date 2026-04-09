@@ -1,9 +1,36 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotographerRequestsService {
 
-  constructor() { }
+  private apiUrl: string = "https://localhost:7067/api/productos"; // TO DO
+  private photographerId: number = 2;
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  getPhotographerId() {
+    return this.photographerId;
+  }
+
+  getPhotographerInfo(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
+  }
+
+  updatePhotographer(id: number, photographer: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}?id=${id}`, photographer);
+  }
+
+  savePhotographer(photographer: any): Observable<any> {
+    return this.http.post(this.apiUrl, photographer);
+  }
+
+  deletePhotographer(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}?id=${id}`);
+  }
 }
