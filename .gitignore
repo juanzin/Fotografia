@@ -360,3 +360,70 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+# =========================
+# Node modules
+# =========================
+node_modules/
+
+# =========================
+# Angular build output
+# =========================
+dist/
+build/
+.out/
+
+# =========================
+# Angular cache
+# =========================
+.angular/
+
+# =========================
+# Logs
+# =========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment files
+# (optional: ignore if sensitive)
+# =========================
+src/environments/*.local.ts
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Coverage reports
+# =========================
+coverage/
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+
+# =========================
+# Package lock (optional)
+# =========================
+# Uncomment ONLY if your team agrees
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
