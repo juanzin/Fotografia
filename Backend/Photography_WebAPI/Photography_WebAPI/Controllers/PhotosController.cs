@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Photography_WebAPI.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/photos")]
     [ApiController]
     public class PhotosController : Controller
     {

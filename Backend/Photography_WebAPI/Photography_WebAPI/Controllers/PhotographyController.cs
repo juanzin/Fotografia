@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Photography_WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/photographers")]
     [ApiController]
     public class PhotographyController : Controller
     {

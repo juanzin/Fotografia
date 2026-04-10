@@ -12,8 +12,8 @@ VALUES('Nature'),
 ('snapshots'),
 ('unfreezing')
 
-INSERT INTO Photographers(Name, Materno, Paterno, Username, Password, UrlFoto, Instagram, Facebook, Email, Biography, Type_User)
-VALUES('Juan', 'Onofre', 'Feliciano', 'Juanzin', 'fotitos','https://www.myprofile.com', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/', 'juan_1020305060@hotmail.com', 'soy chido', 1)
+INSERT INTO Photographers(Name, Materno, Paterno,Phone, Location, Username, Password, UrlFoto, Instagram, Facebook, Email, Biography, Type_User)
+VALUES('Juan', 'Onofre', 'Feliciano','2228604937','Cd Mx', 'Juanzin', 'fotitos','https://www.myprofile.com', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/', 'juan_1020305060@hotmail.com', 'soy chido', 1)
 
 INSERT INTO Photos(Title, Description, Url_Photo, Created_date, Photographer_Id, Category_Id)
 VALUES('Amanecer','mi mejor foto', 'https://www.instagram.com/p/DDq5u1CxSpH/', GETDATE(), 1, 1)
