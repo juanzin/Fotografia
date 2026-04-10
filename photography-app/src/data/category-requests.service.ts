@@ -18,6 +18,6 @@ export class CategoryRequestsService {
     }
 
     getGallery(id: number): Observable<any[]> {
-      return this.http.get<any[]>(this.apiUrl+"/getgaleria");
+      return this.http.get<any[]>(this.apiUrl+"/getgaleria/" + id);
     }
 }
