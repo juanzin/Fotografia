@@ -34,8 +34,8 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
 
   loadPhotographerInfo() {
     this.username = this.photographerInfo.name + " " + this.photographerInfo.materno
-    this.photographerInfo.phone = "2228604937";
-    this.photographerInfo.location = "Puebla Mexico";
+    this.photographerInfo.phone = this.photographerInfo.phone;
+    this.photographerInfo.location = this.photographerInfo.location;
   }
 
   loadPhotos() {
@@ -66,11 +66,10 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
       || this.photographerInfo.location === ""
       || this.photographerInfo.facebook === ""
       || this.photographerInfo.instagram === ""
+      || this.photographerInfo.biography === ""
     ) {
       alert("toda la informacion es requerida");
-    } else {
-      /// TO DO
-      return;
+    } else {    
       this.photographerRequest.updatePhotographer(this.photographerId, this.photographerInfo).subscribe({
         next: () => {
           alert("datos guardados exitosamente");

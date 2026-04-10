@@ -82,12 +82,17 @@
 
         <div class="form-group">
           <label>Instagram</label>
-          <input type="text" value="@username" [(ngModel)]="photographerInfo.instagram" />
+          <input type="text" value="instagram" [(ngModel)]="photographerInfo.instagram" />
         </div>
 
         <div class="form-group">
           <label>Facebook</label>
-          <input type="text" value="@username" [(ngModel)]="photographerInfo.facebook"/>
+          <input type="text" value="facebook" [(ngModel)]="photographerInfo.facebook"/>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" value="Description" [(ngModel)]="photographerInfo.biography"/>
         </div>
 
         <button class="update-btn" (click)="onUpdateInfo()">Update Info</button>

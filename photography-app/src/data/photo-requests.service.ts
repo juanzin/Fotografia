@@ -14,7 +14,7 @@ export class PhotoRequestsService {
   }
 
   getPhotosByUser(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
   }
 
   savePhoto(id: number, photo: any): Observable<any> {
