@@ -12,7 +12,7 @@ namespace Photography_WebAPI.Models
         [MaxLength(100)]
         public string Title { get; set; } = string.Empty;
 
-        [MaxLength(200)]
+        [MaxLength(1000)]
         public string? Description { get; set; }
 
         [Required]

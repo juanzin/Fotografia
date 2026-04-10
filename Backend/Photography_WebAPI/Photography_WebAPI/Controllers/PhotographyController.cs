@@ -1,30 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using Photography_WebAPI.Context;
 using Photography_WebAPI.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Photography_WebAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace Photography_WebAPI.Controllers
 {
-    [Route("api/photographer")]
+    [Route("api/[controller]")]
     [ApiController]
-
     public class PhotographyController : Controller
     {
+        private readonly AppDbContext _context;
+        private readonly IS3Service _s3Service;
 
-        private readonly AppDbContext context;
-
-        public PhotographyController(AppDbContext context)
+        public PhotographyController(AppDbContext context, IS3Service s3Service)
         {
-            this.context = context;
+            _context = context;
+            _s3Service = s3Service;
         }
 
+        // GET: api/photography
         [HttpGet]
         public ActionResult Get()
         {
             try
             {
-                return Ok(context.Photographers.ToList());
+                return Ok(_context.Photographers.ToList());
             }
             catch (Exception ex)
             {
@@ -32,28 +33,15 @@ namespace Photography_WebAPI.Controllers
             }
         }
 
-        [HttpGet("{id}",Name ="GetPhotography")]
-
+        // GET: api/photography/5
+        [HttpGet("{id}", Name = "GetPhotography")]
         public ActionResult Get(int id)
         {
             try
             {
-                var photography = context.Photographers.FirstOrDefault(pohotographers => pohotographers.Id == id);
-                return Ok(photography);
-            }
-            catch (Exception ex) { 
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Post([FromBody] PhotographersModels photographers)
-        {
-            try
-            {
-                context.Photographers.Add(photographers);
-                context.SaveChanges();
-                return CreatedAtRoute("GetPhotography", new { id = photographers.Id }, photographers);
+                var photographer = _context.Photographers.FirstOrDefault(p => p.Id == id);
+                if (photographer == null) return NotFound();
+                return Ok(photographer);
             }
             catch (Exception ex)
             {
@@ -61,46 +49,140 @@ namespace Photography_WebAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] PhotographersModels photographers)
+        // POST: api/photography
+        [HttpPost]
+        public async Task<ActionResult> Post(
+            [FromForm] IFormFile? file,
+            [FromForm] string name,
+            [FromForm] string paterno,
+            [FromForm] string materno,
+            [FromForm] string username,
+            [FromForm] string password,
+            [FromForm] string instagram,
+            [FromForm] string facebook,
+            [FromForm] string email,
+            [FromForm] string biography,
+            [FromForm] int typeUser,
+            [FromForm] string? phone,
+            [FromForm] string? location)
         {
             try
             {
-                if (photographers.Id == id)
+                var photographer = new PhotographersModels
                 {
-                    context.Entry(photographers).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    context.SaveChanges();
-                    return CreatedAtRoute("GetPhotography", new { id = photographers.Id }, photographers);
+                    Name = name,
+                    Paterno = paterno,
+                    Materno = materno,
+                    Username = username,
+                    Password = password,
+                    Instagram = instagram,
+                    Facebook = facebook,
+                    Email = email,
+                    Biography = biography,
+                    Type_User = typeUser,
+                    Phone = phone,
+                    Location = location,
+                    UrlFoto = "" // temporal
+                };
+
+                _context.Photographers.Add(photographer);
+                _context.SaveChanges(); // obtenemos ID autoincremental
+
+                // Si enviaron un archivo de foto
+                if (file != null && file.Length > 0)
+                {
+                    // Limpiamos caracteres inválidos y espacios del nombre
+                    var safeName = string.Concat(name.Split(Path.GetInvalidFileNameChars())).Replace(" ", "");
+                    var fileNameWithoutExt = $"{photographer.Id}_{safeName}";
+
+                    var url = await _s3Service.UploadFileAsync(file, fileNameWithoutExt);
+
+                    photographer.UrlFoto = url;
+                    _context.SaveChanges();
                 }
-                else {
-                    return BadRequest();
-                }
+
+                return CreatedAtRoute("GetPhotography", new { id = photographer.Id }, photographer);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id) 
+        // PUT: api/photography/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(
+            int id,
+            [FromForm] IFormFile? file,
+            [FromForm] string? name,
+            [FromForm] string? paterno,
+            [FromForm] string? materno,
+            [FromForm] string? username,
+            [FromForm] string? password,
+            [FromForm] string? instagram,
+            [FromForm] string? facebook,
+            [FromForm] string? email,
+            [FromForm] string? biography,
+            [FromForm] int? typeUser,
+            [FromForm] string? phone,
+            [FromForm] string? location)
         {
             try
             {
-                var photographers = context.Photographers.FirstOrDefault(g => g.Id == id);
+                var photographer = _context.Photographers.FirstOrDefault(p => p.Id == id);
+                if (photographer == null) return NotFound();
 
-                if(photographers != null)
+                // Actualizamos los campos si vienen en la request
+                if (!string.IsNullOrEmpty(name)) photographer.Name = name;
+                if (!string.IsNullOrEmpty(paterno)) photographer.Paterno = paterno;
+                if (!string.IsNullOrEmpty(materno)) photographer.Materno = materno;
+                if (!string.IsNullOrEmpty(username)) photographer.Username = username;
+                if (!string.IsNullOrEmpty(password)) photographer.Password = password;
+                if (!string.IsNullOrEmpty(instagram)) photographer.Instagram = instagram;
+                if (!string.IsNullOrEmpty(facebook)) photographer.Facebook = facebook;
+                if (!string.IsNullOrEmpty(email)) photographer.Email = email;
+                if (!string.IsNullOrEmpty(biography)) photographer.Biography = biography;
+                if (typeUser.HasValue) photographer.Type_User = typeUser.Value;
+                if (!string.IsNullOrEmpty(phone)) photographer.Phone = phone;
+                if (!string.IsNullOrEmpty(location)) photographer.Location = location;
+
+                // Si enviaron un archivo nuevo, lo subimos a S3
+                if (file != null && file.Length > 0)
                 {
-                    context.Photographers.Remove(photographers);
-                    context.SaveChanges();
-                    return Ok(id);
+                    var safeName = string.Concat((name ?? photographer.Name).Split(Path.GetInvalidFileNameChars())).Replace(" ", "");
+                    var fileNameWithoutExt = $"{photographer.Id}_{safeName}";
+
+                    var url = await _s3Service.UploadFileAsync(file, fileNameWithoutExt);
+
+                    photographer.UrlFoto = url;
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                _context.Entry(photographer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+
+                return CreatedAtRoute("GetPhotography", new { id = photographer.Id }, photographer);
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // DELETE: api/photography/5
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var photographer = _context.Photographers.FirstOrDefault(p => p.Id == id);
+                if (photographer == null) return NotFound();
+
+                _context.Photographers.Remove(photographer);
+                _context.SaveChanges();
+
+                return Ok(id);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
