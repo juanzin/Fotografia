@@ -18,7 +18,7 @@ export class PhotographerRequestsService {
   }
 
   updatePhotographer(id: number, photographer: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}?id=${id}`, photographer);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, photographer);
   }
 
   savePhotographer(photographer: any): Observable<any> {

@@ -38,13 +38,13 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
     this.photographerInfo.location = this.photographerInfo.location;
   }
 
-  loadPhotos() {
-    let numPhotos = this.photos.length;
-
+  loadPhotos(photos: any[]) {
+    let numPhotos = photos.length;
+    this.photos = [];
     for(let i = 0; i < numPhotos; i++) {
        this.photos.push({
-        name: this.photos[i].title,
-        url : this.photos[i].url_Photo 
+        name: photos[i].title,
+        url : photos[i].url_Photo 
       });
     }
 
@@ -67,7 +67,6 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   }
 
   onUpdateInfo() {
-    /// TO DO
     if(this.photographerInfo.email === ""
       || this.photographerInfo.phone === ""
       || this.photographerInfo.location === ""
@@ -76,8 +75,15 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
       || this.photographerInfo.biography === ""
     ) {
       alert("toda la informacion es requerida");
-    } else {    
-      this.photographerRequest.updatePhotographer(this.photographerId, this.photographerInfo).subscribe({
+    } else {
+      let photographer = new FormData();
+      photographer.append("email", this.photographerInfo.email);
+      photographer.append("phone", this.photographerInfo.phone);
+      photographer.append("location", this.photographerInfo.location);
+      photographer.append("facebook", this.photographerInfo.facebook);
+      photographer.append("instagram", this.photographerInfo.instagram);
+      photographer.append("biography", this.photographerInfo.biography);
+      this.photographerRequest.updatePhotographer(this.photographerId, photographer).subscribe({
         next: () => {
           alert("datos guardados exitosamente");
         },
@@ -93,8 +99,8 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   getPhotographerInfo() {
      this.photographerRequest.getPhotographerInfo(this.photographerId).subscribe({
       next: (data) => {
-        if(data.length > 0) {
-          this.photographerInfo = data[0];
+        if(data !== null) {
+          this.photographerInfo = data;
           console.log("phographer info: ", this.photographerInfo);
           this.loadPhotographerInfo();
         } else {
@@ -113,8 +119,8 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
         if(data === null) {
           data = [];
         }
-        this.photos = data;
-        this.loadPhotos();
+        // this.photos = data;
+        this.loadPhotos(data);
       },
       error: () => {
         console.error("error while retrieving photos");
