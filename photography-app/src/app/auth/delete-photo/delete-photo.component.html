@@ -1,0 +1,18 @@
+<div class="modal-backdrop">
+  <div class="delete-modal">
+    <button class="close-btn" type="button" aria-label="Close" (click)="closeModal()">
+      ×
+    </button>
+
+    <div class="warning-icon">
+      !
+    </div>
+
+    <h2 class="modal-title">Are you sure to delete this photo?</h2>
+
+    <div class="modal-actions">
+      <button class="btn btn-delete" type="button" (click)="onDeletePhoto()">Delete</button>
+      <button class="btn btn-cancel" type="button" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

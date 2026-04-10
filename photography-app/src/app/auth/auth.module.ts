@@ -7,6 +7,7 @@ import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
 import { PhographerManagerComponent } from './phographer-manager/phographer-manager.component';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
+import { DeletePhotoComponent } from './delete-photo/delete-photo.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
     AuthComponent,
     LoginComponent,
     PhographerManagerComponent,
-    UploadPhotoComponent
+    UploadPhotoComponent,
+    DeletePhotoComponent
   ],
   imports: [
     CommonModule,

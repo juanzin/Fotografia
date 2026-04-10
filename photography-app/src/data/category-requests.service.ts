@@ -17,7 +17,7 @@ export class CategoryRequestsService {
       return this.http.get<any[]>(this.apiUrl);
     }
 
-    getGallery(): Observable<any[]> {
-      return this.http.get<any[]>(this.apiUrl);
+    getGallery(id: number): Observable<any[]> {
+      return this.http.get<any[]>(this.apiUrl+"/getgaleria");
     }
 }

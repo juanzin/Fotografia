@@ -46,7 +46,7 @@
               <img [src]="photo.url" alt="Photo 1" />
               <div class="card-actions">
                 <button>✎</button>
-                <button>🗑</button>
+                <button (click)="onOpenDeleteModal(photo)">🗑</button>
               </div>
             </div>
           }
@@ -104,5 +104,11 @@
 @if(isOpenUploadModal) {
   <div class="modal-backdrop">
     <app-upload-photo (close)="onCloseUploadModal()"></app-upload-photo>
+  </div>
+}
+
+@if(isOpenDeleteModal) {
+  <div class="modal-backdrop">
+    <app-delete-photo (close)="onCloseDeleteModal($event)"></app-delete-photo>
   </div>
 }

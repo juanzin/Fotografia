@@ -12,13 +12,15 @@ const MAX_NUMBER_PHOTOS: number = 11;
 })
 
 export class PhographerManagerComponent implements OnInit, OnDestroy {
-  
+
   private photographerId: number;
+  private photoToDelete: any;
   public photographerInfo: any;
   public username: string;
   public photos: any[];
   public isOpenUploadModal: boolean;
-  
+  public isOpenDeleteModal: boolean;
+
   constructor(
     private photographerRequest: PhotographerRequestsService,
     private photosRequest: PhotoRequestsService,
@@ -30,6 +32,8 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
     this.username = "";
     this.photos = [];
     this.isOpenUploadModal = false;
+    this.isOpenDeleteModal = false;
+    this.photoToDelete = null;
   }
 
   loadPhotographerInfo() {
@@ -41,14 +45,15 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   loadPhotos(photos: any[]) {
     let numPhotos = photos.length;
     this.photos = [];
-    for(let i = 0; i < numPhotos; i++) {
-       this.photos.push({
+    for (let i = 0; i < numPhotos; i++) {
+      this.photos.push({
         name: photos[i].title,
-        url : photos[i].url_Photo 
+        url: photos[i].url_Photo,
+        id: photos[i].id,
       });
     }
 
-    for(let i = numPhotos; i < MAX_NUMBER_PHOTOS; i++) {
+    for (let i = numPhotos; i < MAX_NUMBER_PHOTOS; i++) {
       this.photos.push({
         name: "empty image",
         url: this.dataStorage.getEmptyImageUrl()
@@ -66,8 +71,28 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
     this.isOpenUploadModal = false;
   }
 
+  onOpenDeleteModal(photo: any) {
+    this.isOpenDeleteModal = !this.isOpenDeleteModal;
+    this.photoToDelete = photo;
+  }
+
+  onCloseDeleteModal(option: string) {
+    if (option === "si") {
+      this.photosRequest.deletePhoto(this.photoToDelete.id).subscribe({
+        next: () => {
+          alert("deleted photo");
+        },
+        error: (error) => {
+          console.error("Error while deleting....");
+        }
+      })
+    }
+    this.isOpenDeleteModal = false;
+    this.photoToDelete = null;
+  }
+
   onUpdateInfo() {
-    if(this.photographerInfo.email === ""
+    if (this.photographerInfo.email === ""
       || this.photographerInfo.phone === ""
       || this.photographerInfo.location === ""
       || this.photographerInfo.facebook === ""
@@ -97,9 +122,9 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
 
 
   getPhotographerInfo() {
-     this.photographerRequest.getPhotographerInfo(this.photographerId).subscribe({
+    this.photographerRequest.getPhotographerInfo(this.photographerId).subscribe({
       next: (data) => {
-        if(data !== null) {
+        if (data !== null) {
           this.photographerInfo = data;
           console.log("phographer info: ", this.photographerInfo);
           this.loadPhotographerInfo();
@@ -116,7 +141,7 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   getPhotos() {
     this.photosRequest.getPhotosByUser(this.photographerId).subscribe({
       next: (data) => {
-        if(data === null) {
+        if (data === null) {
           data = [];
         }
         // this.photos = data;
@@ -134,6 +159,6 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    
+
   }
 }
