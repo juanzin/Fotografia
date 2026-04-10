@@ -17,4 +17,8 @@ export class PhotoRequestsService {
     return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
+  savePhoto(id: number, photo: any): Observable<any> {
+    return this.http.post(this.apiUrl, photo);
+  }
+
 }

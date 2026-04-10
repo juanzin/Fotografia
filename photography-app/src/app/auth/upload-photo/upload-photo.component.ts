@@ -36,7 +36,22 @@ export class UploadPhotoComponent implements OnInit, OnDestroy{
   }
 
   onUploadPhoto() {
-    console.log("upload photo");
+
+    let photo = {
+      Title: this.title,
+      Description: this.description,
+      Category_Id: this.selectedcategory.id
+    };
+
+    this.photosRequest.savePhoto(this.photographerId, photo).subscribe({
+      next: () => {
+        alert("saved photo");
+        console.log("stored successfully");
+      },
+      error: (error) => {
+        console.error("Error while saving....");
+      }
+    })
   }
 
   onFileSelected(event: any): void {
