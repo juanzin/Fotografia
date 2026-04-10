@@ -31,8 +31,10 @@ namespace Photography_WebAPI.Controllers
             }
         }
 
-        [HttpGet("getgaleria")]
-        public ActionResult GetListCategories()
+        //https://localhost:7063/api/categories/getgaleria/2
+
+        [HttpGet("getgaleria/{photographerId}")]
+        public ActionResult GetListCategories(int photographerId)
         {
             try
             {
@@ -42,7 +44,8 @@ namespace Photography_WebAPI.Controllers
                         c.Id,
                         c.Name,
                         Url = context.Photos
-                            .Where(p => p.Category_Id == c.Id)
+                            .Where(p => p.Category_Id == c.Id
+                                     && p.Photographer_Id == photographerId)
                             .OrderByDescending(p => p.Id)
                             .Select(p => p.Url_Photo)
                             .FirstOrDefault()
