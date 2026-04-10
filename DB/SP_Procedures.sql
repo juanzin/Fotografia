@@ -30,7 +30,9 @@ GO
 CREATE OR ALTER PROCEDURE SP_Insert_Photographer
 	@Name VARCHAR(100),
 	@Materno VARCHAR(100),
-	@Paterno VARCHAR(100),	
+	@Paterno VARCHAR(100),
+	@Phone VARCHAR(15),
+	@Location VARCHAR(200),
 	@Username VARCHAR(100),
 	@UrlFoto VARCHAR(150),
 	@Password VARCHAR(100),
@@ -41,8 +43,8 @@ CREATE OR ALTER PROCEDURE SP_Insert_Photographer
 	@TypeUser INT
 AS
 BEGIN
-	INSERT INTO Photographers(Name, Materno, Paterno, Username, UrlFoto,Password,Instagram, Facebook, Email, Biography, Type_User)
-	VALUES(@Name, @Materno, @Paterno, @Username, @UrlFoto, @Password, @Instagram, @Facebook, @Email, @Biography, @TypeUser)
+	INSERT INTO Photographers(Name, Materno, Paterno, Phone, Location, Username, UrlFoto,Password,Instagram, Facebook, Email, Biography, Type_User)
+	VALUES(@Name, @Materno, @Paterno, @Phone, @Location, @Username, @UrlFoto, @Password, @Instagram, @Facebook, @Email, @Biography, @TypeUser)
 END 
 GO
 
@@ -114,7 +116,8 @@ EXEC Get_All_Categories;
 EXEC Get_Photographer_info_for_about 1;
 
 --setters
-EXEC SP_Insert_Photographer 'Juan', 'Onofre', 'Feliciano','Juan','https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/profile.png', 'memelas', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/MijailTalChess/', 'printf_1@hotmail.com', 'soy chido', 1;
+EXEC SP_Insert_Photographer 'Juan', 'Onofre', 'Feliciano','2228604927', 'Cd Mx', 'Juanito','https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/profile.png', 'memelas', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/MijailTalChess/', 'printf_1@hotmail.com', 'soy chido', 1;
+EXEC SP_Insert_Photographer 'Andres', 'Lopez', 'Martinez','558604927', 'Cd Mx', 'Andres','https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/profile.png', 'memelas', 'https://www.instagram.com/kualtzin_photo/', 'https://www.facebook.com/MijailTalChess/', 'printf_1@hotmail.com', 'soy nuevo', 1;
 
 EXEC SP_Insert_Photo 'animal',' new description', '2026-03-30 14:30:00', 1, 'https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/animal.png', 3;
 EXEC SP_Insert_Photo 'landing','new decription', '2026-03-30 14:30:00', 1, 'https://juanzin-photos-mx.s3.us-east-1.amazonaws.com/landing.png', 4;

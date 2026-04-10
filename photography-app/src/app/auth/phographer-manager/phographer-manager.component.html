@@ -14,7 +14,7 @@
         <div class="user-box">
           <div class="user-info">
             <span class="user-icon">👤</span>
-            <span class="user-name">Juan Pérez</span>
+            <span class="user-name">{{username}}</span>
           </div>
 
         </div>
@@ -38,97 +38,19 @@
         <h2>Gallery Management</h2>
 
         <div class="gallery-grid">
-          <div class="upload-card">
+          <div class="upload-card" (click)="onOpenUploadPhoto()">
             <span class="camera-icon">📷</span>
           </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo1.jpg" alt="Photo 1" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
+          @for (photo of photos; track $index;) {
+            <div class="photo-card">
+              <img [src]="photo.url" alt="Photo 1" />
+              <div class="card-actions">
+                <button>✎</button>
+                <button>🗑</button>
+              </div>
             </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo2.jpg" alt="Photo 2" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo3.jpg" alt="Photo 3" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo4.jpg" alt="Photo 4" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo5.jpg" alt="Photo 5" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo6.jpg" alt="Photo 6" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo7.jpg" alt="Photo 7" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo8.jpg" alt="Photo 8" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo9.jpg" alt="Photo 9" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo10.jpg" alt="Photo 10" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
-
-          <div class="photo-card">
-            <img src="assets/photos/photo11.jpg" alt="Photo 11" />
-            <div class="card-actions">
-              <button>✎</button>
-              <button>🗑</button>
-            </div>
-          </div>
+          }
+         
         </div>
 
         <div class="pagination">
@@ -145,26 +67,42 @@
 
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" value="juan.perez@example.com" />
+          <input type="email" value="juan.perez@example.com" [(ngModel)]="photographerInfo.email"/>
         </div>
 
         <div class="form-group">
           <label>Phone Number</label>
-          <input type="text" value="(123) 456-7890" />
+          <input type="text" value="(123) 456-7890" [(ngModel)]="photographerInfo.phone"/>
         </div>
 
         <div class="form-group">
           <label>Location</label>
-          <input type="text" value="Mexico City, Mexico" />
+          <input type="text" value="Mexico City, Mexico" [(ngModel)]="photographerInfo.location"/>
         </div>
 
         <div class="form-group">
           <label>Instagram</label>
-          <input type="text" value="@username" />
+          <input type="text" value="instagram" [(ngModel)]="photographerInfo.instagram" />
         </div>
 
-        <button class="update-btn">Update Info</button>
+        <div class="form-group">
+          <label>Facebook</label>
+          <input type="text" value="facebook" [(ngModel)]="photographerInfo.facebook"/>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" value="Description" [(ngModel)]="photographerInfo.biography"/>
+        </div>
+
+        <button class="update-btn" (click)="onUpdateInfo()">Update Info</button>
       </div>
     </section>
   </div>
 </div>
+
+@if(isOpenUploadModal) {
+  <div class="modal-backdrop">
+    <app-upload-photo (close)="onCloseUploadModal()"></app-upload-photo>
+  </div>
+}

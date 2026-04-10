@@ -7,19 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class PhotographerRequestsService {
 
-  private apiUrl: string = "https://localhost:7063/api/photographer";
-  private photographerId: number = 2;
+  private apiUrl: string = "https://localhost:7063/api/photographers";
 
   constructor(private http: HttpClient) {
 
   }
 
-  getPhotographerId() {
-    return this.photographerId;
-  }
-
   getPhotographerInfo(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
   updatePhotographer(id: number, photographer: any): Observable<any> {

@@ -1,7 +1,7 @@
     <div class="page-overlay"></div>
 
     <header class="hero">
-        <h1>Juan Onofre</h1>
+        <h1>{{username}}</h1>
         <p class="subtitle">Professional Photographer</p>
 
         <nav class="navbar">
@@ -12,7 +12,17 @@
     </header>
 
     <main class="gallery">
-        <div class="card">
+        @for (category of categories; track $index;) {
+            <div class="card">
+                <img [src]="category.urlPhoto" alt="mexico" />
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <h2>México</h2>
+                    <span class="line"></span>
+                </div>
+            </div>
+        }
+        <!-- <div class="card">
             <img id="ImgSnapshot"  alt="Snapshots" />
             <div class="card-overlay"></div>
             <div class="card-content">
@@ -64,5 +74,5 @@
                 <h2>Animals</h2>
                 <span class="line"></span>
             </div>
-        </div>
+        </div> -->
     </main>

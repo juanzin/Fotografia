@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -17,6 +18,7 @@ import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     AuthRoutingModule
   ]
 })

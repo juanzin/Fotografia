@@ -7,13 +7,14 @@
     <div class="content">
         <div class="portrait-wrap">
             <div class="portrait">
-                <img src="images/profile.png" alt="Photographer portrait" />
+                <img [src]="photographerInfo.urlFoto" alt="Photographer portrait" />
             </div>
         </div>
 
         <div class="info">
-            <h2 id="TextGreeting" >Hi, I'm Juan</h2>
+            <h2 id="TextGreeting" >Hi, {{username}}</h2>
             <p id="TextPresenting" >
+                {{photographerInfo.biography}}
             </p>
 
             <div class="action-row">
@@ -22,7 +23,7 @@
             </div>
 
             <div class="socials">
-                <a id="EllinkInstagram" href="" class="social-link instagram" aria-label="Instagram" 
+                <a [href]="photographerInfo.instagram" class="social-link instagram" aria-label="Instagram" 
                     target="_blank">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
@@ -30,7 +31,7 @@
                     </svg>
                 </a>
 
-                <a id="EllinkFacebook" href="" class="social-link facebook" aria-label="Facebook" 
+                <a [href]="photographerInfo.facebook" class="social-link facebook" aria-label="Facebook" 
                     target="_blank">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path

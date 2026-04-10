@@ -7,13 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class PhotoRequestsService {
 
-  private apiUrl: string = "https://localhost:7279/api/gestores"; 
+  private apiUrl: string = "https://localhost:7063/api/photos";
+
   constructor(private http: HttpClient) {
 
   }
 
-  getPhotos(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getPhotosByUser(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
+  }
+
+  savePhoto(photo: any): Observable<any> {
+    return this.http.post(this.apiUrl, photo);
   }
 
 }

@@ -1,33 +1,38 @@
-<div class="page-bg">
+<div class="page-bg modal-container">
     <div class="overlay"></div>
 
     <div class="modal">
-        <button class="close-btn" aria-label="Close">
-            <i class="fa-solid fa-xmark"></i>
+        <button class="close-btn" aria-label="Close" (click)="closeModal()">
+        X
         </button>
 
         <h1>Upload New Photo</h1>
 
-        <div class="upload-box">
-            <i class="fa-solid fa-camera"></i>
-            <p>Click to select or drag a new photo here</p>
+        <div class="row">
+            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+            <button class="btn btn-upload-brg" (click)="fileInput.click()">Select Photo</button>
+            <div class="filename">{{selectedFile.name}}</div>
         </div>
+        <!-- <input type="file" (change)="onFileSelected($event)" accept="image/*"> -->
+        <!-- <div class="upload-box" (click)="onUploadPhoto()">
+            <i class="fa-solid fa-camera"></i>
+            <p>Image preview</p>
+        </div> -->
 
         <div class="form-group full">
             <label for="title">Title</label>
-            <input type="text" id="title" placeholder="Enter a title..." />
+            <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="title" />
         </div>
 
         <div class="row">
             <div class="form-group">
                 <label for="category">Category</label>
                 <div class="select-wrapper">
-                    <select id="category">
-                        <option value="" selected disabled>Select category</option>
-                        <option>Nature</option>
-                        <option>Culture</option>
-                        <option>Portrait</option>
-                        <option>Landscape</option>
+
+                    <select [(ngModel)]="selectedcategory">
+                        @for (item of categories; track $index;) {
+                            <option [ngValue]="item">{{item.name}}</option>
+                        }
                     </select>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
@@ -35,13 +40,13 @@
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" id="description" placeholder="Enter a description..." />
+                <input type="text" id="description" placeholder="Enter a description..." [(ngModel)]="description" />
             </div>
         </div>
 
         <div class="actions">
-            <button class="btn btn-cancel">Cancel</button>
-            <button class="btn btn-upload">Upload Photo</button>
+            <button class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+            <button class="btn btn-upload" (click)="onUploadPhoto()">Upload Photo</button>
         </div>
     </div>
 </div>
