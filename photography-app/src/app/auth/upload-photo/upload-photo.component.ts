@@ -37,13 +37,28 @@ export class UploadPhotoComponent implements OnInit, OnDestroy{
 
   onUploadPhoto() {
 
-    let photo = {
-      Title: this.title,
-      Description: this.description,
-      Category_Id: this.selectedcategory.id
-    };
+    // let photo = {
+    //   Title: this.title,
+    //   Description: this.description,
+    //   Category_Id: this.selectedcategory.id
+    // };
 
-    this.photosRequest.savePhoto(this.photographerId, photo).subscribe({
+    // let photo = {
+    //   file: this.selectedFile,
+    //   title: this.title,
+    //   photographerId: this.photographerId,
+    //   categoryId: this.selectedcategory.id,
+    //   description: this.description,
+    // };
+
+    let photo = new FormData();
+    photo.append("file", this.selectedFile);
+    photo.append("title", this.title);
+    photo.append("photographerId", this.photographerId.toString());
+    photo.append("categoryId", this.selectedcategory.id);
+    photo.append("description", this.description);
+
+    this.photosRequest.savePhoto(photo).subscribe({
       next: () => {
         alert("saved photo");
         console.log("stored successfully");

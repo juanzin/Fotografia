@@ -14,7 +14,7 @@ export class PhotographerRequestsService {
   }
 
   getPhotographerInfo(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
   updatePhotographer(id: number, photographer: any): Observable<any> {

@@ -24,9 +24,9 @@ export class AboutComponent implements OnInit, OnDestroy{
   getPhotographerInfo() {
      this.photographerRequest.getPhotographerInfo(this.photographerId).subscribe({
       next: (data) => {
-        if(data.length > 0) {
-          this.photographerInfo = data[0];
-          this.username = data[0].name + " " + data[0].materno;
+        if(data !== null) {
+          this.photographerInfo = data;
+          this.username = this.photographerInfo.name + " " + this.photographerInfo.materno;
         } else {
           console.error("photographer not found");
         }

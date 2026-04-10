@@ -41,6 +41,13 @@ export class PhographerManagerComponent implements OnInit, OnDestroy {
   loadPhotos() {
     let numPhotos = this.photos.length;
 
+    for(let i = 0; i < numPhotos; i++) {
+       this.photos.push({
+        name: this.photos[i].title,
+        url : this.photos[i].url_Photo 
+      });
+    }
+
     for(let i = numPhotos; i < MAX_NUMBER_PHOTOS; i++) {
       this.photos.push({
         name: "empty image",
