@@ -13,7 +13,7 @@ const NUMBER_CATEGORIES: number = 6;
 })
 export class HomeComponent implements OnInit, OnDestroy{
 
-  private photos: any[];
+  public gallery: any[];
   private photographerId: number;
   public categories: any[];
   public username: string;
@@ -23,20 +23,19 @@ export class HomeComponent implements OnInit, OnDestroy{
     private photographerRequest: PhotographerRequestsService,
     private categoryRequest: CategoryRequestsService,
     private dataStorage: DataStorageService) {
-    this.photos = [];
+    this.gallery = [];
     this.categories = [];
     this.username = "";
     this.photographerId = dataStorage.getPhotographerId();
   }
 
-  public loadPhotos() {
-    for(let i = 0; i < NUMBER_CATEGORIES; i++) {
-      // TO DO
-      this.categories.push({
-        name: '',
-        urlPhoto: this.dataStorage.getEmptyImageUrl() 
-      })
+  loadGallery() {
+    for(let i = 0; i < 6; i++) {
+      if(this.gallery[i].url === null) {
+        this.gallery[i].url = this.dataStorage.getEmptyImageUrl();
+      }
     }
+
   }
 
   getPhotographerInfo() {
@@ -55,13 +54,13 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   getGallery() {
-    this.photoRequests.getPhotosByUser(this.photographerId).subscribe({
+    this.categoryRequest.getGallery(this.photographerId).subscribe({
       next: (data) => {
         if(data === null) {
           data = [];
         }
-        this.photos = data;
-        this.loadPhotos();
+        this.gallery = data;
+        this.loadGallery();
       },
       error: () => {
         console.error("error while retrieving photos");

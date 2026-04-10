@@ -12,12 +12,12 @@
     </header>
 
     <main class="gallery">
-        @for (category of categories; track $index;) {
+        @for (g of gallery; track $index;) {
             <div class="card">
-                <img [src]="category.urlPhoto" alt="mexico" />
+                <img [src]="g.url" alt="mexico" />
                 <div class="card-overlay"></div>
                 <div class="card-content">
-                    <h2>México</h2>
+                    <h2>{{g.name}}</h2>
                     <span class="line"></span>
                 </div>
             </div>
