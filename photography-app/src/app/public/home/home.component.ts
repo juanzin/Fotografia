@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PhotoRequestsService } from '../../../data/photo-requests.service';
 import { PhotographerRequestsService } from '../../../data/photographer-requests.service';
 import { DataStorageService } from '../../../data/data-storage.service';
+import { CategoryRequestsService } from '../../../data/category-requests.service';
 
 const NUMBER_CATEGORIES: number = 6;
 
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   constructor(
     private photoRequests: PhotoRequestsService,
     private photographerRequest: PhotographerRequestsService,
+    private categoryRequest: CategoryRequestsService,
     private dataStorage: DataStorageService) {
     this.photos = [];
     this.categories = [];
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     });
   }
 
-  getPhotos() {
+  getGallery() {
     this.photoRequests.getPhotosByUser(this.photographerId).subscribe({
       next: (data) => {
         if(data === null) {
@@ -69,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   public ngOnInit(): void {
     this.getPhotographerInfo();
-    this.getPhotos();
+    this.getGallery();
   }
 
   public ngOnDestroy(): void {

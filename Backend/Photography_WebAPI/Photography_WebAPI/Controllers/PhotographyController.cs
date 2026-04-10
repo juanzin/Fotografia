@@ -113,19 +113,12 @@ namespace Photography_WebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(
             int id,
-            [FromForm] IFormFile? file,
-            [FromForm] string? name,
-            [FromForm] string? paterno,
-            [FromForm] string? materno,
-            [FromForm] string? username,
-            [FromForm] string? password,
-            [FromForm] string? instagram,
-            [FromForm] string? facebook,
-            [FromForm] string? email,
-            [FromForm] string? biography,
-            [FromForm] int? typeUser,
-            [FromForm] string? phone,
-            [FromForm] string? location)
+            [FromForm] string instagram,
+            [FromForm] string facebook,
+            [FromForm] string email,
+            [FromForm] string biography,
+            [FromForm] string phone,
+            [FromForm] string location)
         {
             try
             {
@@ -133,29 +126,15 @@ namespace Photography_WebAPI.Controllers
                 if (photographer == null) return NotFound();
 
                 // Actualizamos los campos si vienen en la request
-                if (!string.IsNullOrEmpty(name)) photographer.Name = name;
-                if (!string.IsNullOrEmpty(paterno)) photographer.Paterno = paterno;
-                if (!string.IsNullOrEmpty(materno)) photographer.Materno = materno;
-                if (!string.IsNullOrEmpty(username)) photographer.Username = username;
-                if (!string.IsNullOrEmpty(password)) photographer.Password = password;
+                
                 if (!string.IsNullOrEmpty(instagram)) photographer.Instagram = instagram;
                 if (!string.IsNullOrEmpty(facebook)) photographer.Facebook = facebook;
                 if (!string.IsNullOrEmpty(email)) photographer.Email = email;
                 if (!string.IsNullOrEmpty(biography)) photographer.Biography = biography;
-                if (typeUser.HasValue) photographer.Type_User = typeUser.Value;
                 if (!string.IsNullOrEmpty(phone)) photographer.Phone = phone;
                 if (!string.IsNullOrEmpty(location)) photographer.Location = location;
 
-                // Si enviaron un archivo nuevo, lo subimos a S3
-                if (file != null && file.Length > 0)
-                {
-                    var safeName = string.Concat((name ?? photographer.Name).Split(Path.GetInvalidFileNameChars())).Replace(" ", "");
-                    var fileNameWithoutExt = $"{photographer.Id}_{safeName}";
-
-                    var url = await _s3Service.UploadFileAsync(file, fileNameWithoutExt);
-
-                    photographer.UrlFoto = url;
-                }
+               
 
                 _context.Entry(photographer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
